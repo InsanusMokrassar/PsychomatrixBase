@@ -10,8 +10,8 @@ private fun Int.toDigits(): List<Byte> {
     return "$this".map { "$it".toByte() }
 }
 
-class Psychomatrix(val date: DateTime) {
-    private val numbers: ByteArray = ByteArray(10)
+open class Psychomatrix(val date: DateTime) {
+    protected open val numbers: ByteArray = ByteArray(10)
 
     /**
      * Always array 4*4 of values. In rows was put columns (
