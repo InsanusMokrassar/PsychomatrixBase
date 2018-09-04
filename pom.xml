@@ -8,36 +8,11 @@
     <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>${project.artifactId}</name>
-    <description>${project.artifactId}</description>
-    <url>https://insanusmokrassar.github.io/${project.artifactId}/</url>
-    <developers>
-        <developer>
-            <name>Ovsyannikov Alexey</name>
-            <email>ovsyannikov.alexey95@gmail.com</email>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT</name>
-            <url>https://github.com/insanusmokrassar/${project.artifactId}/blob/master/LICENSE</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <url>https://github.com/insanusmokrassar/${project.artifactId}</url>
-        <tag>HEAD</tag>
-        <developerConnection>
-            scm:git:[fetch=]https://github.com/insanusmokrassar/${project.artifactId}.git[push=]ssh:git@github.com:insanusmokrassar/${project.artifactId}.git
-        </developerConnection>
-    </scm>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.2.61</kotlin.version>
         <kotlin.coroutines.version>0.24.0</kotlin.coroutines.version>
         <dokka.version>0.9.16</dokka.version>
-        <gpg.version>1.6</gpg.version>
         <assembly.version>2.6</assembly.version>
         <source.version>3.0.1</source.version>
         <jar.version>3.0.2</jar.version>
@@ -159,30 +134,8 @@
                     <cacheRoot>default</cacheRoot>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${gpg.version}</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>bintray-insanusmokrassar-StandardRepository</id>
-            <name>insanusmokrassar-StandardRepository</name>
-            <url>https://api.bintray.com/maven/insanusmokrassar/StandardRepository/${project.artifactId}/;publish=1</url>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
