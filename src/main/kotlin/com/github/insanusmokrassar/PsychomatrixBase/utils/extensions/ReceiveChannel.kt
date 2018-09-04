@@ -5,6 +5,12 @@ import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import java.util.concurrent.TimeUnit
 
+const val SUBSCRIPTIONS_LARGE = 256
+const val SUBSCRIPTIONS_MEDIUM = 128
+const val SUBSCRIPTIONS_SMALL = 64
+const val SUBSCRIPTIONS_EXTRA_SMALL = 32
+const val SUBSCRIPTIONS_SINGLE = 1
+
 fun <T> ReceiveChannel<T>.subscribeChecking(
     throwableHandler: (Throwable) -> Boolean = {
         it.printStackTrace()
