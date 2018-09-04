@@ -5,7 +5,7 @@ import com.github.insanusmokrassar.PsychomatrixBase.di.UseCasesDI
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.DatePickerPresenter
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.DefaultRealisations.DatePickerPresenterImpl
 
-open class PresentationLayerDIImpl(
+abstract class PresentationLayerDIImpl(
     useCasesDI: UseCasesDI
 ) : PresentationLayerDI, UseCasesDI by useCasesDI {
 
