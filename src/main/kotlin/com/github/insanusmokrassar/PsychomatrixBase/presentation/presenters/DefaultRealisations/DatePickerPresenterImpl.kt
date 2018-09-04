@@ -1,6 +1,6 @@
 package com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.DefaultRealisations
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.UserCalculatePsychomatrixByDate
+import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDate
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.DatePickerPresenter
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.launch
 import org.joda.time.DateTime
 
 class DatePickerPresenterImpl(
-    private val userCalculatePsychomatrixByDate: UserCalculatePsychomatrixByDate
+    private val CalculatePsychomatrixByDate: CalculatePsychomatrixByDate
 ) : DatePickerPresenter {
     private val psychomatrixCreateBroadcastChannel = BroadcastChannel<Psychomatrix>(SUBSCRIPTIONS_MEDIUM)
 
@@ -24,7 +24,7 @@ class DatePickerPresenterImpl(
 
     override fun userPickDate(date: DateTime) {
         launch {
-            userCalculatePsychomatrixByDate.calculate(date).await().also {
+            CalculatePsychomatrixByDate.calculate(date).await().also {
                 psychomatrixCreateBroadcastChannel.send(it)
             }
         }
