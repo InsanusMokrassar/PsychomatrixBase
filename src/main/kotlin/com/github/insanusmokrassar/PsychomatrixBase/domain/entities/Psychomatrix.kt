@@ -1,12 +1,11 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.entities
 
 import org.joda.time.DateTime
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import kotlin.math.sqrt
 
-private val dateFormat: DateFormat = SimpleDateFormat("dMyyyy", Locale.ROOT)
+private val dateFormat: DateTimeFormatter = DateTimeFormat.forPattern("dMyyyy")
 private fun Int.toDigits(): List<Byte> {
     return "$this".map { "$it".toByte() }
 }
@@ -27,7 +26,7 @@ class Psychomatrix(val date: DateTime) {
         )
 
     init {
-        val dateDigits = dateFormat.format(date).map { "$it".toByte() }.toMutableList()
+        val dateDigits = dateFormat.print(date).map { "$it".toByte() }.toMutableList()
 
         val firstNumber = dateDigits.sum()
         val firstNumberDigits = firstNumber.toDigits()
