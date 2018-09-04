@@ -16,7 +16,7 @@ abstract class HistoryDatesRepositoryImpl(
     private val dateRemovedBroadcast = BroadcastChannel<DateTime>(SUBSCRIPTIONS_EXTRA_SMALL)
 
     init {
-        runBlocking {
+        launch {
             calculatePsychomatrixByDate.openPsychomatrixCreatedSubscription().subscribe {
                 it.date.also {
                     date ->
