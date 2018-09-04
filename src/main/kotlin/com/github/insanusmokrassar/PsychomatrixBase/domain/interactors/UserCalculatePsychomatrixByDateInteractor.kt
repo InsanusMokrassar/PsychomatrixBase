@@ -1,6 +1,6 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.interactors
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.UserCanCalculatePsychomatrixByDate
+import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.UserCalculatePsychomatrixByDate
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
 import kotlinx.coroutines.experimental.Deferred
@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.joda.time.DateTime
 import java.util.*
 
-class UserCanCalculatePsychomatrixByDateInteractor : UserCanCalculatePsychomatrixByDate {
+class UserCalculatePsychomatrixByDateInteractor : UserCalculatePsychomatrixByDate {
     private val psychomatrixCreatedBroadcast = BroadcastChannel<Psychomatrix>(SUBSCRIPTIONS_MEDIUM)
 
     override suspend fun calculate(date: Long): Deferred<Psychomatrix> {
