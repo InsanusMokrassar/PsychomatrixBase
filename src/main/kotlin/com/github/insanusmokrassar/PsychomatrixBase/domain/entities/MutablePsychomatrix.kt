@@ -15,6 +15,8 @@ class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
 
     private val mutableOperationsHistory: MutableList<Operation> = ArrayList()
 
+    constructor(psychomatrix: Psychomatrix): this(psychomatrix.date)
+
     val operationsHistory: List<Operation>
         get() = mutableOperationsHistory
 
