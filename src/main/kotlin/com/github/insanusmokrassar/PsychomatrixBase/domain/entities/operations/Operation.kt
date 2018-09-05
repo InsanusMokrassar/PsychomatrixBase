@@ -16,6 +16,9 @@ class ConverterException: IOException("This converter can't convert input number
 val List<Operation>.canGrowSimpleWay: Boolean
     get() = contains(SixGrowSeven)
 
+val List<Operation>.containsSimpleGrows: Boolean
+    get() = firstOrNull { it == FiveGrowNine || it == NineGrowFive || it is GrowCustom } != null
+
 private val operations = listOf(
     TwoGrowFour,
     FourGrowTwo,
@@ -152,16 +155,15 @@ object OneGrowEight : Operation() {
 
 object SixGrowSeven : Operation() {
     override suspend fun canConvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sixAsByte) && OneGrowEight.canConvert(numbers, changesHistory)
+        return numbers.contains(sixAsByte)
     }
     override suspend fun canInvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sevenAsByte) && EightGrowOne.canConvert(numbers, changesHistory) && changesHistory.contains(this)
-            && !changesHistory.contains(FiveGrowNine) && !changesHistory.contains(NineGrowFive)
+        return numbers.contains(sevenAsByte) && changesHistory.contains(this)
+            && !changesHistory.containsSimpleGrows
     }
 
     override suspend fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            OneGrowEight.convert(numbers, changesHistory)
             remove(sixAsByte)
             add(sevenAsByte)
         }
@@ -169,7 +171,6 @@ object SixGrowSeven : Operation() {
 
     override suspend fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            OneGrowEight.invert(numbers, changesHistory)
             add(sixAsByte)
             remove(sevenAsByte)
         }
@@ -178,20 +179,18 @@ object SixGrowSeven : Operation() {
 
 object SevenGrowSix : Operation() {
     override suspend fun canConvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sevenAsByte) && EightGrowOne.canConvert(numbers, changesHistory)
-            && !changesHistory.contains(FiveGrowNine) && !changesHistory.contains(NineGrowFive)
+        return numbers.contains(sevenAsByte)
+            && !changesHistory.containsSimpleGrows
     }
     override suspend fun canInvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sixAsByte) && OneGrowEight.canConvert(numbers, changesHistory) && changesHistory.contains(this)
+        return numbers.contains(sixAsByte) && changesHistory.contains(this)
     }
 
     override suspend fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        EightGrowOne.convert(numbers, changesHistory)
         SixGrowSeven.invert(numbers)
     }
 
     override suspend fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        EightGrowOne.invert(numbers, changesHistory)
         SixGrowSeven.convert(numbers)
     }
 }
