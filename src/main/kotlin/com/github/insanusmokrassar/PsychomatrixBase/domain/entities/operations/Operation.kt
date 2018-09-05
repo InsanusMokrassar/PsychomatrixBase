@@ -24,7 +24,10 @@ private val operations = listOf(
     SixGrowSeven,
     SevenGrowSix,
     FiveGrowNine,
-    NineGrowFive
+    NineGrowFive,
+    (1 .. 9).map {
+        GrowCustom(it.toByte())
+    }
 )
 
 suspend fun availableConverts(numbers: MutableList<Byte>, operations: List<Operation>): List<Operation> {
@@ -237,4 +240,22 @@ object NineGrowFive : Operation() {
     }
 }
 
-class GrowCustom()
+private class GrowCustom(private val number: Byte) : Operation() {
+    override suspend fun canConvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
+        return changesHistory.canGrowSimpleWay
+                && changesHistory.firstOrNull { it is GrowCustom && it.number == number } == null
+    }
+
+    override suspend fun canInvert(numbers: MutableList<Byte>, changesHistory: List<Operation>): Boolean {
+        return changesHistory.firstOrNull { it is GrowCustom && it.number == number } != null
+            && numbers.contains(number)
+    }
+
+    override suspend fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
+        numbers.add(number)
+    }
+
+    override suspend fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
+        numbers.remove(number)
+    }
+}
