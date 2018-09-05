@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.di
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDate
+import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDateUseCase
 
 interface UseCasesDI : EntitiesDI {
-    val calculatePsychomatrixByDate: CalculatePsychomatrixByDate
+    val calculatePsychomatrixByDateUseCase: CalculatePsychomatrixByDateUseCase
 }

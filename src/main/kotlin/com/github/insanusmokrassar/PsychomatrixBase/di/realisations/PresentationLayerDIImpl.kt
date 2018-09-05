@@ -11,7 +11,7 @@ abstract class PresentationLayerDIImpl(
 
     override val datePickerPresenter: DatePickerPresenter by lazy {
         DatePickerPresenterImpl(
-            calculatePsychomatrixByDate
+            calculatePsychomatrixByDateUseCase
         )
     }
 

@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.data.repository.realisations
 
 import com.github.insanusmokrassar.PsychomatrixBase.data.repository.HistoryDatesRepository
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDate
+import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDateUseCase
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_EXTRA_SMALL
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.subscribe
 import kotlinx.coroutines.experimental.*
@@ -10,14 +10,14 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.joda.time.DateTime
 
 abstract class HistoryDatesRepositoryImpl(
-    calculatePsychomatrixByDate: CalculatePsychomatrixByDate
+    calculatePsychomatrixByDateUseCase: CalculatePsychomatrixByDateUseCase
 ) : HistoryDatesRepository {
     private val dateAddedBroadcast = BroadcastChannel<DateTime>(SUBSCRIPTIONS_EXTRA_SMALL)
     private val dateRemovedBroadcast = BroadcastChannel<DateTime>(SUBSCRIPTIONS_EXTRA_SMALL)
 
     init {
         launch {
-            calculatePsychomatrixByDate.openPsychomatrixCreatedSubscription().subscribe {
+            calculatePsychomatrixByDateUseCase.openPsychomatrixCreatedSubscription().subscribe {
                 it.date.also {
                     date ->
                     onDateCalculated(date)
