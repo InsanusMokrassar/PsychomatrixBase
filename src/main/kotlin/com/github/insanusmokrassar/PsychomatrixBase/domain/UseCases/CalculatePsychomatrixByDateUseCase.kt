@@ -6,7 +6,7 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.joda.time.DateTime
 import java.util.*
 
-interface CalculatePsychomatrixByDate {
+interface CalculatePsychomatrixByDateUseCase {
     suspend fun calculate(date: Long): Deferred<Psychomatrix>
     suspend fun calculate(date: DateTime): Deferred<Psychomatrix>
     suspend fun calculate(date: Date): Deferred<Psychomatrix>

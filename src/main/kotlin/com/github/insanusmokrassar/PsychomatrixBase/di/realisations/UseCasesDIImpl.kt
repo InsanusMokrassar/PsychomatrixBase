@@ -9,8 +9,7 @@ open class UseCasesDIImpl(
     entitiesDI: EntitiesDI
 ) : UseCasesDI, EntitiesDI by entitiesDI {
 
-    val calculatePsychomatrixByDateUseCase: CalculatePsychomatrixByDateUseCase by lazy {
+    override val calculatePsychomatrixByDateUseCase: CalculatePsychomatrixByDateUseCase by lazy {
         CalculatePsychomatrixByDateUseCaseInteractor()
     }
-
 }

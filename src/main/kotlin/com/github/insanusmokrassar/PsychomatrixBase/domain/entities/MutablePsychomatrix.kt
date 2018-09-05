@@ -17,19 +17,21 @@ class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
 
     constructor(psychomatrix: Psychomatrix): this(psychomatrix.date)
 
-    val operationsHistory: List<Operation>
-        get() = mutableOperationsHistory
+    val operationsHistory: Deferred<List<Operation>>
+        get() = async {
+            mutableOperationsHistory
+        }
 
     val availableOperations: Deferred<List<Operation>>
         get() = async {
             availableConverts.await().plus(availableInverts.await())
         }
 
-    private val availableConverts: Deferred<List<Operation>>
+    val availableConverts: Deferred<List<Operation>>
         get() = async {
             availableConverts(mutableNumbers, mutableOperationsHistory)
         }
-    private val availableInverts: Deferred<List<Operation>>
+    val availableInverts: Deferred<List<Operation>>
         get() = async {
             availableInverts(mutableNumbers, mutableOperationsHistory)
         }
