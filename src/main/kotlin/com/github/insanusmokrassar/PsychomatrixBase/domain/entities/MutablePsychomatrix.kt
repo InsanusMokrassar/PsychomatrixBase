@@ -15,6 +15,9 @@ class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
 
     private val mutableOperationsHistory: MutableList<Operation> = ArrayList()
 
+    val operationsHistory: List<Operation>
+        get() = mutableOperationsHistory
+
     val availableOperations: Deferred<List<Operation>>
         get() = async {
             availableConverts.await().plus(availableInverts.await())
