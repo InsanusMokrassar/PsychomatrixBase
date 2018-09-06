@@ -10,33 +10,67 @@ private fun Int.toDigits(): List<Byte> {
     return "$this".map { "$it".toByte() }
 }
 
-val UPPER_DIAG_MATRIX_INDEX = 0 to 3
-val DOWN_DIAG_MATRIX_INDEX = 4 to 3
+val UPPER_DIAG_MATRIX_INDEX = 3 to 0
+val DOWN_DIAG_MATRIX_INDEX = 3 to 4
 
-val FIRST_ROW_SUM_MATRIX_INDEX = 1 to 3
-val SECOND_ROW_SUM_MATRIX_INDEX = 2 to 3
+val FIRST_ROW_SUM_MATRIX_INDEX = 3 to 1
+val SECOND_ROW_SUM_MATRIX_INDEX = 3 to 2
 val THIRD_ROW_SUM_MATRIX_INDEX = 3 to 3
 
-val FIRST_COLUMN_SUM_MATRIX_INDEX = 3 to 1
-val SECOND_COLUMN_SUM_MATRIX_INDEX = 3 to 2
-val THIRD_COLUMN_SUM_MATRIX_INDEX = 3 to 3
+val FIRST_COLUMN_SUM_MATRIX_INDEX = 0 to 4
+val SECOND_COLUMN_SUM_MATRIX_INDEX = 1 to 4
+val THIRD_COLUMN_SUM_MATRIX_INDEX = 2 to 4
 
-val EMPTY_CEILS_OF_MATRIX = (0 until 3).map { 0 to it }
+val EMPTY_CEILS_OF_MATRIX = (0 until 3).map { it to 0 }
 
 open class Psychomatrix(val date: DateTime) {
     protected open val numbers: ByteArray = ByteArray(10)
 
     /**
-     * Always array 4*5 of values. In rows was put columns (
+     * Always array 4*5 of values. In rows was put columns
+     *
      */
-    val asMatrix: Array<Array<Byte>>
+    val asMatrix: Array<Array<PsychomatrixCeilInfo>>
         get() = arrayOf(
-            arrayOf(-1, -1, -1, getUpperDiagSum()),
-            arrayOf(numbers[1], numbers[4], numbers[7], getRowSum(0)),
-            arrayOf(numbers[2], numbers[5], numbers[8], getRowSum(1)),
-            arrayOf(numbers[3], numbers[6], numbers[9], getRowSum(2)),
-            arrayOf(getColumnSum(0), getColumnSum(1), getColumnSum(2), getDownDiagSum())
-        )
+            arrayOf(
+                null,
+                numbers[0],
+                numbers[1],
+                numbers[2],
+                getColumnSum(0)
+            ),
+            arrayOf(
+                null,
+                numbers[3],
+                numbers[4],
+                numbers[5],
+                getColumnSum(1)
+            ),
+            arrayOf(
+                null,
+                numbers[6],
+                numbers[7],
+                numbers[8],
+                getColumnSum(2)
+            ),
+            arrayOf(
+                getUpperDiagSum(),
+                getRowSum(0),
+                getRowSum(1),
+                getRowSum(2),
+                getDownDiagSum()
+            )
+        ).mapIndexed {
+            x, yArray ->
+            yArray.mapIndexed {
+                y, value ->
+                PsychomatrixCeilInfo(
+                    x,
+                    y,
+                    value ?.toInt()
+                )
+            }.toTypedArray()
+        }.toTypedArray()
 
     init {
         val dateDigits = dateFormat.print(date).map { "$it".toByte() }.toMutableList()
