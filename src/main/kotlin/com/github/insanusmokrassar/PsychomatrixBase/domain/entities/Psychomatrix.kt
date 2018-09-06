@@ -34,23 +34,23 @@ open class Psychomatrix(val date: DateTime) {
         get() = arrayOf(
             arrayOf(
                 null,
-                numbers[0],
-                numbers[1],
-                numbers[2],
+                get(1),
+                get(2),
+                get(3),
                 getColumnSum(0)
             ),
             arrayOf(
                 null,
-                numbers[3],
-                numbers[4],
-                numbers[5],
+                get(4),
+                get(5),
+                get(6),
                 getColumnSum(1)
             ),
             arrayOf(
                 null,
-                numbers[6],
-                numbers[7],
-                numbers[8],
+                get(7),
+                get(8),
+                get(9),
                 getColumnSum(2)
             ),
             arrayOf(
