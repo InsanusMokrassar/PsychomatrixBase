@@ -20,8 +20,11 @@ abstract class HistoryDatesRepositoryImpl(
             calculatePsychomatrixByDateUseCase.openPsychomatrixCreatedSubscription().subscribe {
                 it.date.also {
                     date ->
-                    onDateCalculated(date)
-                    dateAddedBroadcast.send(date)
+                    date.withTime(0, 0, 0, 0).also {
+                        dateWithoutTime ->
+                        onDateCalculated(dateWithoutTime)
+                        dateAddedBroadcast.send(dateWithoutTime)
+                    }
                 }
             }
         }
