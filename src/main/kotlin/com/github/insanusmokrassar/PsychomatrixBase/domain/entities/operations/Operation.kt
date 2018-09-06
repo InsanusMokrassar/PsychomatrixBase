@@ -239,7 +239,7 @@ object NineGrowFive : Operation() {
     }
 }
 
-private class GrowCustom(private val number: Byte) : Operation() {
+class GrowCustom internal constructor(val number: Byte) : Operation() {
     override suspend fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return changesHistory.canGrowSimpleWay
                 && changesHistory.firstOrNull { it is GrowCustom && it.number == number } == null
