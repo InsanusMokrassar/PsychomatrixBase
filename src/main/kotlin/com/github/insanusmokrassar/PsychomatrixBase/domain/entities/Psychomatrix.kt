@@ -10,11 +10,24 @@ private fun Int.toDigits(): List<Byte> {
     return "$this".map { "$it".toByte() }
 }
 
+val UPPER_DIAG_MATRIX_INDEX = 0 to 3
+val DOWN_DIAG_MATRIX_INDEX = 4 to 3
+
+val FIRST_ROW_SUM_MATRIX_INDEX = 1 to 3
+val SECOND_ROW_SUM_MATRIX_INDEX = 2 to 3
+val THIRD_ROW_SUM_MATRIX_INDEX = 3 to 3
+
+val FIRST_COLUMN_SUM_MATRIX_INDEX = 3 to 1
+val SECOND_COLUMN_SUM_MATRIX_INDEX = 3 to 2
+val THIRD_COLUMN_SUM_MATRIX_INDEX = 3 to 3
+
+val EMPTY_CEILS_OF_MATRIX = (0 until 3).map { 0 to it }
+
 open class Psychomatrix(val date: DateTime) {
     protected open val numbers: ByteArray = ByteArray(10)
 
     /**
-     * Always array 4*4 of values. In rows was put columns (
+     * Always array 4*5 of values. In rows was put columns (
      */
     val asMatrix: Array<Array<Byte>>
         get() = arrayOf(
