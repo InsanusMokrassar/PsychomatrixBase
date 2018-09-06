@@ -23,8 +23,39 @@ val THIRD_COLUMN_SUM_MATRIX_INDEX = 2 to 4
 
 val EMPTY_CEILS_OF_MATRIX = (0 until 3).map { it to 0 }
 
+fun calculateNumbers(dateTime: DateTime): ByteArray {
+    val dateDigits = dateFormat.print(dateTime).map { "$it".toByte() }.toMutableList()
+
+    val firstNumber = dateDigits.sum()
+    val firstNumberDigits = firstNumber.toDigits()
+
+    val secondNumber = firstNumberDigits.sum()
+    val secondNumberDigits = secondNumber.toDigits()
+
+    val thirdNumber = firstNumber - dateDigits[0] * 2
+    val thirdNumberDigits = thirdNumber.toDigits()
+
+    val fourthNumber = thirdNumberDigits.sum()
+    val fourthNumberDigits = fourthNumber.toDigits()
+
+    dateDigits.addAll(firstNumberDigits)
+    dateDigits.addAll(secondNumberDigits)
+    dateDigits.addAll(thirdNumberDigits)
+    dateDigits.addAll(fourthNumberDigits)
+
+    return ByteArray(10).also {
+        numbers ->
+        (0 until numbers.size).forEach {
+            index ->
+            numbers[index] = dateDigits.count {
+                it == index.toByte()
+            }.toByte()
+        }
+    }
+}
+
 open class Psychomatrix(val date: DateTime) {
-    protected open val numbers: ByteArray = ByteArray(10)
+    protected open val numbers: ByteArray = calculateNumbers(date)
 
     /**
      * Always array 4*5 of values. In rows was put columns
@@ -71,34 +102,6 @@ open class Psychomatrix(val date: DateTime) {
                 )
             }.toTypedArray()
         }.toTypedArray()
-
-    init {
-        val dateDigits = dateFormat.print(date).map { "$it".toByte() }.toMutableList()
-
-        val firstNumber = dateDigits.sum()
-        val firstNumberDigits = firstNumber.toDigits()
-
-        val secondNumber = firstNumberDigits.sum()
-        val secondNumberDigits = secondNumber.toDigits()
-
-        val thirdNumber = firstNumber - dateDigits[0] * 2
-        val thirdNumberDigits = thirdNumber.toDigits()
-
-        val fourthNumber = thirdNumberDigits.sum()
-        val fourthNumberDigits = fourthNumber.toDigits()
-
-        dateDigits.addAll(firstNumberDigits)
-        dateDigits.addAll(secondNumberDigits)
-        dateDigits.addAll(thirdNumberDigits)
-        dateDigits.addAll(fourthNumberDigits)
-
-        (0 until numbers.size).forEach {
-            index ->
-            numbers[index] = dateDigits.count {
-                it == index.toByte()
-            }.toByte()
-        }
-    }
 
     /**
      * @return count of numbers of `i`

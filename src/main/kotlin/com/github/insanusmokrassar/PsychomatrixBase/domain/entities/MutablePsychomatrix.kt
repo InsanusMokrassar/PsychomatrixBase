@@ -8,7 +8,7 @@ import kotlinx.coroutines.experimental.async
 import org.joda.time.DateTime
 
 class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
-    private var mutableNumbers = super.numbers.toMutableList()
+    private var mutableNumbers = calculateNumbers(date).toMutableList()
 
     override val numbers: ByteArray
         get() = mutableNumbers.toByteArray()
