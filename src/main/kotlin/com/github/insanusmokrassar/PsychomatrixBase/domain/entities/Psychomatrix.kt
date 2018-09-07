@@ -57,6 +57,10 @@ fun calculateNumbers(dateTime: DateTime): ByteArray {
 open class Psychomatrix(val date: DateTime) {
     protected open val numbers: ByteArray = calculateNumbers(date)
 
+    open val asMutablePsychomatrix: MutablePsychomatrix by lazy {
+        MutablePsychomatrix(this)
+    }
+
     /**
      * Always array 4*5 of values. In rows was put columns
      *

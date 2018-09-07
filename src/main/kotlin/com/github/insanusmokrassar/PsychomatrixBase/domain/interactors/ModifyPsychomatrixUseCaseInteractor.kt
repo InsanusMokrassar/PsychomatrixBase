@@ -52,7 +52,7 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
     private fun asMutablePsychomatrix(psychomatrix: Psychomatrix): MutablePsychomatrix {
         return currentPsychomatrixes.firstOrNull {
             it == psychomatrix
-        } ?: (psychomatrix as? MutablePsychomatrix) ?: MutablePsychomatrix(psychomatrix).also {
+        } ?: psychomatrix.asMutablePsychomatrix.also {
             currentPsychomatrixes.add(it)
         }
     }

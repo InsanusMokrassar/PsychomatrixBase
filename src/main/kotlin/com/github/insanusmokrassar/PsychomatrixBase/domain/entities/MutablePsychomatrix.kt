@@ -3,15 +3,18 @@ package com.github.insanusmokrassar.PsychomatrixBase.domain.entities
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.*
 import org.joda.time.DateTime
 
-class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
+class MutablePsychomatrix private constructor(date: DateTime) : Psychomatrix(date) {
     private var mutableNumbers = calculateNumbers(date).toMutableList()
 
     override val numbers: ByteArray
         get() = mutableNumbers.toByteArray()
 
+    override val asMutablePsychomatrix: MutablePsychomatrix
+        get() = this
+
     private val mutableOperationsHistory: MutableList<Operation> = ArrayList()
 
-    constructor(psychomatrix: Psychomatrix): this(psychomatrix.date)
+    internal constructor(psychomatrix: Psychomatrix): this(psychomatrix.date)
 
     val operationsHistory: List<Operation>
         get() = mutableOperationsHistory
