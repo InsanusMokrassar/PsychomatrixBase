@@ -1,7 +1,5 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations
 
-import java.io.IOException
-
 private const val oneAsByte: Byte = 1
 private const val twoAsByte: Byte = 2
 private const val fourAsByte: Byte = 4
@@ -10,8 +8,6 @@ private const val sixAsByte: Byte = 6
 private const val sevenAsByte: Byte = 7
 private const val eightAsByte: Byte = 8
 private const val nineAsByte: Byte = 9
-
-class ConverterException: IOException("This converter can't convert input numbers")
 
 val List<Operation>.canGrowSimpleWay: Boolean
     get() = contains(SixGrowSeven)
@@ -33,12 +29,12 @@ private val operations: List<Operation> = listOf(
     }.toTypedArray()
 )
 
-suspend fun availableConverts(numbers: MutableList<Byte>, operations: List<Operation>): List<Operation> {
-    return operations.filter { it.canConvert(numbers, operations) }
+suspend fun availableConverts(numbers: MutableList<Byte>, history: List<Operation>): List<Operation> {
+    return operations.filter { it.canConvert(numbers, history) }
 }
 
-suspend fun availableInverts(numbers: MutableList<Byte>, operations: List<Operation>): List<Operation> {
-    return operations.filter { it.canInvert(numbers, operations) }
+suspend fun availableInverts(numbers: MutableList<Byte>, history: List<Operation>): List<Operation> {
+    return operations.filter { it.canInvert(numbers, history) }
 }
 
 sealed class Operation {
