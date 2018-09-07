@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.Def
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.ModifyPsychomatrixUseCase
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.PsychomatrixOperationIsConvert
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.*
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.ModifyPsychomatrixPresenter
@@ -17,7 +18,7 @@ class ModifyPsychomatrixPresenterImpl(
 ) : ModifyPsychomatrixPresenter {
 
     private val availableConverts = HashMap<Psychomatrix, List<Operation>>()
-    private val availableInverts = HashMap<Psychomatrix, List<Operation>>()
+    private val availableInverts = HashMap<MutablePsychomatrix, List<Operation>>()
 
     init {
         openPsychomatrixChangedSubscription().subscribe {
@@ -33,7 +34,7 @@ class ModifyPsychomatrixPresenterImpl(
         return modifyPsychomatrixUseCase.openPsychomatrixChangedSubscription()
     }
 
-    override suspend fun tryToDoOperation(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean> {
+    override suspend fun tryToDoOperation(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
         return modifyPsychomatrixUseCase.makeConvert(psychomatrix, operation)
     }
 
@@ -93,7 +94,7 @@ class ModifyPsychomatrixPresenterImpl(
         }
     }
 
-    override suspend fun rollback(psychomatrix: Psychomatrix, operations: Int): Job {
+    override suspend fun rollback(psychomatrix: MutablePsychomatrix, operations: Int): Job {
         return launch {
             history(psychomatrix).await().let {
                 it.subList(it.size - operations, it.size).asReversed()
@@ -103,7 +104,7 @@ class ModifyPsychomatrixPresenterImpl(
         }
     }
 
-    override suspend fun history(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override suspend fun history(psychomatrix: MutablePsychomatrix): Deferred<List<Operation>> {
         return async {
             availableInverts[psychomatrix] ?: updateInvertsOfPsychomatrix(psychomatrix)
         }
@@ -115,7 +116,7 @@ class ModifyPsychomatrixPresenterImpl(
         }
     }
 
-    private suspend fun updateInvertsOfPsychomatrix(psychomatrix: Psychomatrix): List<Operation> {
+    private suspend fun updateInvertsOfPsychomatrix(psychomatrix: MutablePsychomatrix): List<Operation> {
         return modifyPsychomatrixUseCase.getInverts(psychomatrix).await().also {
             availableInverts[psychomatrix] = it
         }

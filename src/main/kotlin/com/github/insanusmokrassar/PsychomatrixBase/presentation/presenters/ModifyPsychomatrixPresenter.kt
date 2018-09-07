@@ -1,6 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.PsychomatrixOperationIsConvert
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
 import kotlinx.coroutines.experimental.Deferred
@@ -11,7 +12,7 @@ interface ModifyPsychomatrixPresenter {
 
     fun openPsychomatrixChangedSubscription(): ReceiveChannel<PsychomatrixOperationIsConvert>
 
-    suspend fun tryToDoOperation(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean>
+    suspend fun tryToDoOperation(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
 
     suspend fun twoGrowFourAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
     suspend fun fourGrowTwoAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
@@ -27,7 +28,7 @@ interface ModifyPsychomatrixPresenter {
 
     suspend fun customGrowAvailable(psychomatrix: Psychomatrix, number: Byte): Deferred<Boolean>
 
-    suspend fun rollback(psychomatrix: Psychomatrix, operations: Int): Job
+    suspend fun rollback(psychomatrix: MutablePsychomatrix, operations: Int): Job
 
-    suspend fun history(psychomatrix: Psychomatrix): Deferred<List<Operation>>
+    suspend fun history(psychomatrix: MutablePsychomatrix): Deferred<List<Operation>>
 }

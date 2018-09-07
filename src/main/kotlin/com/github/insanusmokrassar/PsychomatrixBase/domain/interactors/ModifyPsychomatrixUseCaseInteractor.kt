@@ -20,13 +20,13 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
         return psychomatrixChangedBroadcastChannel.openSubscription()
     }
 
-    override suspend fun makeConvert(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean> {
+    override suspend fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
         return async {
             asMutablePsychomatrix(psychomatrix).applyConvert(operation)
         }
     }
 
-    override suspend fun makeInvert(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean> {
+    override suspend fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
         return async {
             asMutablePsychomatrix(psychomatrix).applyInvert(operation)
         }
