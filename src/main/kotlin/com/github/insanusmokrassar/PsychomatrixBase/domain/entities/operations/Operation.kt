@@ -1,13 +1,6 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations
 
-private const val oneAsByte: Byte = 1
-private const val twoAsByte: Byte = 2
-private const val fourAsByte: Byte = 4
-private const val fiveAsByte: Byte = 5
-private const val sixAsByte: Byte = 6
-private const val sevenAsByte: Byte = 7
-private const val eightAsByte: Byte = 8
-private const val nineAsByte: Byte = 9
+private const val zeroAsByte: Byte = 0
 
 val List<Operation>.canGrowSimpleWay: Boolean
     get() = contains(SixGrowSeven)
@@ -25,7 +18,7 @@ private val operations: List<Operation> = listOf(
     FiveGrowNine,
     NineGrowFive,
     *(1 .. 9).map {
-        GrowCustom(it.toByte())
+        GrowCustom(it)
     }.toTypedArray()
 )
 
@@ -60,35 +53,35 @@ sealed class Operation {
 
 object TwoGrowFour : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.count { it == twoAsByte } / 2 > changesHistory.count { it == FourGrowTwo }
+        return numbers[2] / 2 > changesHistory.count { it == FourGrowTwo }
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(fourAsByte) && changesHistory.contains(this)
+        return numbers[4] != zeroAsByte && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            remove(twoAsByte)
-            remove(twoAsByte)
-            add(fourAsByte)
+            numbers[2]--
+            numbers[2]--
+            numbers[4]++
         }
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            add(twoAsByte)
-            add(twoAsByte)
-            remove(fourAsByte)
+            numbers[2]++
+            numbers[2]++
+            numbers[4]--
         }
     }
 }
 
 object FourGrowTwo : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.count { it == fourAsByte } > changesHistory.count { it == TwoGrowFour }
+        return numbers[4] > changesHistory.count { it == TwoGrowFour }
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.count { it == twoAsByte } > 1 && changesHistory.contains(this)
+        return numbers[2] > 1 && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
@@ -102,42 +95,43 @@ object FourGrowTwo : Operation() {
 
 object EightGrowOne : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(eightAsByte)
+        return numbers[8] > 0
             && (TwoGrowFour.canConvert(numbers, changesHistory) || FourGrowTwo.canConvert(numbers, changesHistory))
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.count { it == oneAsByte } > 1 && changesHistory.contains(this)
+        return numbers[1] > 1 && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            if (count { it == twoAsByte} <= 1) {
+            if (numbers[2] < 2) {
                 FourGrowTwo.convert(numbers, changesHistory)
             }
-            remove(twoAsByte)
-            remove(twoAsByte)
-            remove(eightAsByte)
-            add(oneAsByte)
-            add(oneAsByte)
+            numbers[2]--
+            numbers[2]--
+            numbers[8]--
+            numbers[1]++
+            numbers[1]++
         }
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            FourGrowTwo.invert(numbers, changesHistory)
-            add(eightAsByte)
-            remove(oneAsByte)
-            remove(oneAsByte)
+            numbers[1]--
+            numbers[1]--
+            numbers[8]++
+            numbers[2]++
+            numbers[2]++
         }
     }
 }
 
 object OneGrowEight : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.count { it == oneAsByte} > 1
+        return numbers[1] > 1
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(eightAsByte) && changesHistory.contains(this)
+        return numbers[8] > 0 && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
@@ -151,35 +145,41 @@ object OneGrowEight : Operation() {
 
 object SixGrowSeven : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sixAsByte)
+        return numbers[6] > changesHistory.count { it == SevenGrowSix }
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sevenAsByte) && changesHistory.contains(this)
-            && !changesHistory.containsSimpleGrows
+        return numbers[7] > if (changesHistory.canGrowSimpleWay) {
+            1
+        } else {
+            0
+        } && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            remove(sixAsByte)
-            add(sevenAsByte)
+            numbers[6]--
+            numbers[7]++
         }
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
         numbers.apply {
-            add(sixAsByte)
-            remove(sevenAsByte)
+            numbers[7]--
+            numbers[6]++
         }
     }
 }
 
 object SevenGrowSix : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sevenAsByte)
-            && !changesHistory.containsSimpleGrows
+        return numbers[7] - changesHistory.count { it == SixGrowSeven } > if (changesHistory.canGrowSimpleWay) {
+            1
+        } else {
+            0
+        }
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers.contains(sixAsByte) && changesHistory.contains(this)
+        return numbers[6] > 0 && changesHistory.contains(this)
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
@@ -195,9 +195,7 @@ object FiveGrowNine : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return changesHistory.canGrowSimpleWay
             && (
-                numbers.count {
-                    it == fiveAsByte
-                } / 2 - (changesHistory.count { it == NineGrowFive })
+                numbers[5] / 2 - (changesHistory.count { it == NineGrowFive })
             ) > changesHistory.count { it == this }
     }
 
@@ -206,18 +204,18 @@ object FiveGrowNine : Operation() {
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.add(nineAsByte)
+        numbers[9]++
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.remove(nineAsByte)
+        numbers[9]--
     }
 }
 
 object NineGrowFive : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return changesHistory.canGrowSimpleWay
-            && (numbers.count { it == nineAsByte } - changesHistory.count { it == FiveGrowNine }) > changesHistory.count { it == this }
+            && (numbers[9] - changesHistory.count { it == FiveGrowNine }) > changesHistory.count { it == this }
     }
 
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
@@ -225,17 +223,17 @@ object NineGrowFive : Operation() {
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.add(fiveAsByte)
-        numbers.add(fiveAsByte)
+        numbers[5]++
+        numbers[5]++
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.remove(fiveAsByte)
-        numbers.remove(fiveAsByte)
+        numbers[5]--
+        numbers[5]--
     }
 }
 
-class GrowCustom internal constructor(val number: Byte) : Operation() {
+class GrowCustom internal constructor(val number: Int) : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return changesHistory.canGrowSimpleWay
                 && changesHistory.firstOrNull { it is GrowCustom && it.number == number } == null
@@ -243,14 +241,14 @@ class GrowCustom internal constructor(val number: Byte) : Operation() {
 
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return changesHistory.firstOrNull { it is GrowCustom && it.number == number } != null
-            && numbers.contains(number)
+            && numbers[number] > 0
     }
 
     override fun doConvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.add(number)
+        numbers[number]++
     }
 
     override fun doInvert(numbers: MutableList<Byte>, changesHistory: MutableList<Operation>?) {
-        numbers.remove(number)
+        numbers[number]--
     }
 }
