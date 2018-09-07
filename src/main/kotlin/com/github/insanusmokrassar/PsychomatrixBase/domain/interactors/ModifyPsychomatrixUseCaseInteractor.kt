@@ -46,7 +46,7 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
 
     private fun asMutablePsychomatrix(psychomatrix: Psychomatrix): MutablePsychomatrix {
         return currentPsychomatrixes.firstOrNull {
-            it == psychomatrix
+            it.date == psychomatrix.date
         } ?: MutablePsychomatrix(psychomatrix).also {
             currentPsychomatrixes.add(it)
         }

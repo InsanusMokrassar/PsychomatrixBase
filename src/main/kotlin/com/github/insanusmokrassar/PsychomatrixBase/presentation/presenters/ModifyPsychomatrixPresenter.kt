@@ -11,6 +11,8 @@ interface ModifyPsychomatrixPresenter {
 
     fun openPsychomatrixChangedSubscription(): ReceiveChannel<PsychomatrixOperationIsConvert>
 
+    suspend fun tryToDoOperation(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean>
+
     suspend fun twoGrowFourAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
     suspend fun fourGrowTwoAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
 

@@ -33,6 +33,10 @@ class ModifyPsychomatrixPresenterImpl(
         return modifyPsychomatrixUseCase.openPsychomatrixChangedSubscription()
     }
 
+    override suspend fun tryToDoOperation(psychomatrix: Psychomatrix, operation: Operation): Deferred<Boolean> {
+        return modifyPsychomatrixUseCase.makeConvert(psychomatrix, operation)
+    }
+
     override suspend fun twoGrowFourAvailable(psychomatrix: Psychomatrix): Deferred<Boolean> {
         return async {
             (availableConverts[psychomatrix] ?: updateConvertsOfPsychomatrix(psychomatrix)).contains(TwoGrowFour)
