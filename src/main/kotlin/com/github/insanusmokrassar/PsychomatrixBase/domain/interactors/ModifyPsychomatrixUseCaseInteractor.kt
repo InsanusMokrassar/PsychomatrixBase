@@ -8,6 +8,7 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.O
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.launch
 
 class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
     private val currentPsychomatrixes: MutableList<MutablePsychomatrix> = ArrayList()
@@ -19,11 +20,21 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
     }
 
     override fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
-        return asMutablePsychomatrix(psychomatrix).applyConvert(operation)
+        return asMutablePsychomatrix(psychomatrix).applyConvert(operation).also {
+            if (it) {
+                launch {
+                    psychomatrixChangedBroadcastChannel.send(psychomatrix to (operation to true))
+                }
+            }
+        }
     }
 
     override fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
-        return asMutablePsychomatrix(psychomatrix).applyInvert(operation)
+        return asMutablePsychomatrix(psychomatrix).applyInvert(operation).also {
+            launch {
+                psychomatrixChangedBroadcastChannel.send(psychomatrix to (operation to false))
+            }
+        }
     }
 
     override fun getConverts(psychomatrix: Psychomatrix): List<Operation> {
