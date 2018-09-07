@@ -19,7 +19,7 @@ val List<Operation>.canGrowSimpleWay: Boolean
 val List<Operation>.containsSimpleGrows: Boolean
     get() = firstOrNull { it == FiveGrowNine || it == NineGrowFive || it is GrowCustom } != null
 
-private val operations = listOf(
+private val operations: List<Operation> = listOf(
     TwoGrowFour,
     FourGrowTwo,
     OneGrowEight,
@@ -28,9 +28,9 @@ private val operations = listOf(
     SevenGrowSix,
     FiveGrowNine,
     NineGrowFive,
-    (1 .. 9).map {
+    *(1 .. 9).map {
         GrowCustom(it.toByte())
-    }
+    }.toTypedArray()
 )
 
 suspend fun availableConverts(numbers: MutableList<Byte>, operations: List<Operation>): List<Operation> {
