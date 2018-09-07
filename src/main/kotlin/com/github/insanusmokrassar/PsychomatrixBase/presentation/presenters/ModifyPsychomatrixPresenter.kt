@@ -12,23 +12,11 @@ interface ModifyPsychomatrixPresenter {
 
     fun openPsychomatrixChangedSubscription(): ReceiveChannel<PsychomatrixOperationIsConvert>
 
-    suspend fun tryToDoOperation(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
+    fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
+    fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
 
-    suspend fun twoGrowFourAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-    suspend fun fourGrowTwoAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
+    fun getConverts(psychomatrix: Psychomatrix): Deferred<List<Operation>>
+    fun getInverts(psychomatrix: Psychomatrix): Deferred<List<Operation>>
 
-    suspend fun oneGrowEightAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-    suspend fun eightGrowOneAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-
-    suspend fun sixGrowSevenAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-    suspend fun sevenGrowSixAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-
-    suspend fun fiveGrowNineAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-    suspend fun nineGrowFiveAvailable(psychomatrix: Psychomatrix): Deferred<Boolean>
-
-    suspend fun customGrowAvailable(psychomatrix: Psychomatrix, number: Byte): Deferred<Boolean>
-
-    suspend fun rollback(psychomatrix: MutablePsychomatrix, operations: Int): Job
-
-    suspend fun history(psychomatrix: MutablePsychomatrix): Deferred<List<Operation>>
+    fun getPsychomatrixHistory(psychomatrix: Psychomatrix): Deferred<List<Operation>>
 }

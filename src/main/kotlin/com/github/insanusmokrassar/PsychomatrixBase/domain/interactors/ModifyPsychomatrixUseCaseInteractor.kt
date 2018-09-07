@@ -20,34 +20,34 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
         return psychomatrixChangedBroadcastChannel.openSubscription()
     }
 
-    override suspend fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
+    override fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
         return async {
             asMutablePsychomatrix(psychomatrix).applyConvert(operation)
         }
     }
 
-    override suspend fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
+    override fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
         return async {
             asMutablePsychomatrix(psychomatrix).applyInvert(operation)
         }
     }
 
-    override suspend fun getConverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getConverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
         return asMutablePsychomatrix(psychomatrix).availableConverts
     }
 
-    override suspend fun getInverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getInverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
         return asMutablePsychomatrix(psychomatrix).availableInverts
     }
 
-    override suspend fun getPsychomatrixHistory(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getPsychomatrixHistory(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
         return asMutablePsychomatrix(psychomatrix).operationsHistory
     }
 
     private fun asMutablePsychomatrix(psychomatrix: Psychomatrix): MutablePsychomatrix {
         return currentPsychomatrixes.firstOrNull {
-            it.date == psychomatrix.date
-        } ?: MutablePsychomatrix(psychomatrix).also {
+            it == psychomatrix
+        } ?: (psychomatrix as? MutablePsychomatrix) ?: MutablePsychomatrix(psychomatrix).also {
             currentPsychomatrixes.add(it)
         }
     }
