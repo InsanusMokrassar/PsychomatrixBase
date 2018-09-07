@@ -3,8 +3,6 @@ package com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 
 typealias PsychomatrixOperationIsConvert = Pair<MutablePsychomatrix, Pair<Operation, Boolean>>

@@ -4,8 +4,6 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 
 interface ModifyPsychomatrixPresenter {

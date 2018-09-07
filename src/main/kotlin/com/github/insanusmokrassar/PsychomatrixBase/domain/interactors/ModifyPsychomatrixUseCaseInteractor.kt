@@ -6,8 +6,6 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsych
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 

@@ -4,14 +4,9 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.ModifyPsycho
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.PsychomatrixOperationIsConvert
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.*
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.ModifyPsychomatrixPresenter
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.subscribe
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.launch
 
 class ModifyPsychomatrixPresenterImpl(
     private val modifyPsychomatrixUseCase: ModifyPsychomatrixUseCase
