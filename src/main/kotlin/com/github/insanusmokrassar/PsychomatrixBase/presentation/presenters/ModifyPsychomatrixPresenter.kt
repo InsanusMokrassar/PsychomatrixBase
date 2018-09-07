@@ -12,11 +12,11 @@ interface ModifyPsychomatrixPresenter {
 
     fun openPsychomatrixChangedSubscription(): ReceiveChannel<PsychomatrixOperationIsConvert>
 
-    fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
-    fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean>
+    fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean
+    fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean
 
-    fun getConverts(psychomatrix: Psychomatrix): Deferred<List<Operation>>
-    fun getInverts(psychomatrix: Psychomatrix): Deferred<List<Operation>>
+    fun getConverts(psychomatrix: Psychomatrix): List<Operation>
+    fun getInverts(psychomatrix: Psychomatrix): List<Operation>
 
-    fun getPsychomatrixHistory(psychomatrix: Psychomatrix): Deferred<List<Operation>>
+    fun getPsychomatrixHistory(psychomatrix: Psychomatrix): List<Operation>
 }

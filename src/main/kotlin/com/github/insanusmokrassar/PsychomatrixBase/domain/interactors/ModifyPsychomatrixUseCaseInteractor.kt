@@ -20,27 +20,23 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
         return psychomatrixChangedBroadcastChannel.openSubscription()
     }
 
-    override fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
-        return async {
-            asMutablePsychomatrix(psychomatrix).applyConvert(operation)
-        }
+    override fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
+        return asMutablePsychomatrix(psychomatrix).applyConvert(operation)
     }
 
-    override fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Deferred<Boolean> {
-        return async {
-            asMutablePsychomatrix(psychomatrix).applyInvert(operation)
-        }
+    override fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
+        return asMutablePsychomatrix(psychomatrix).applyInvert(operation)
     }
 
-    override fun getConverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getConverts(psychomatrix: Psychomatrix): List<Operation> {
         return asMutablePsychomatrix(psychomatrix).availableConverts
     }
 
-    override fun getInverts(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getInverts(psychomatrix: Psychomatrix): List<Operation> {
         return asMutablePsychomatrix(psychomatrix).availableInverts
     }
 
-    override fun getPsychomatrixHistory(psychomatrix: Psychomatrix): Deferred<List<Operation>> {
+    override fun getPsychomatrixHistory(psychomatrix: Psychomatrix): List<Operation> {
         return asMutablePsychomatrix(psychomatrix).operationsHistory
     }
 

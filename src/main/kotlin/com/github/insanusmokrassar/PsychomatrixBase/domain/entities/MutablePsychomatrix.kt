@@ -17,35 +17,25 @@ class MutablePsychomatrix(date: DateTime) : Psychomatrix(date) {
 
     constructor(psychomatrix: Psychomatrix): this(psychomatrix.date)
 
-    val operationsHistory: Deferred<List<Operation>>
-        get() = async {
-            mutableOperationsHistory
-        }
+    val operationsHistory: List<Operation>
+        get() = mutableOperationsHistory
 
-    val availableOperations: Deferred<List<Operation>>
-        get() = async {
-            availableConverts.await().plus(availableInverts.await())
-        }
+    val availableConverts: List<Operation>
+        get() = availableConverts(mutableNumbers, mutableOperationsHistory)
+    val availableInverts: List<Operation>
+        get() = availableInverts(mutableNumbers, mutableOperationsHistory)
 
-    val availableConverts: Deferred<List<Operation>>
-        get() = async {
-            availableConverts(mutableNumbers, mutableOperationsHistory)
-        }
-    val availableInverts: Deferred<List<Operation>>
-        get() = async {
-            availableInverts(mutableNumbers, mutableOperationsHistory)
-        }
 
-    suspend fun applyConvert(operation: Operation): Boolean {
-        if (operation in availableConverts.await()) {
+    fun applyConvert(operation: Operation): Boolean {
+        if (operation in availableConverts) {
             operation.convert(mutableNumbers, mutableOperationsHistory)
             return true
         }
         return false
     }
 
-    suspend fun applyInvert(operation: Operation): Boolean {
-        if (operation in availableInverts.await()) {
+    fun applyInvert(operation: Operation): Boolean {
+        if (operation in availableInverts) {
             operation.invert(mutableNumbers, mutableOperationsHistory)
             return true
         }
