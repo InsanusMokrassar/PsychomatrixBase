@@ -186,4 +186,8 @@ open class Psychomatrix(val date: DateTime) {
                         getDownDiagSum()
                 )
     }
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other) || (other as? Psychomatrix) ?.date == date
+    }
 }
