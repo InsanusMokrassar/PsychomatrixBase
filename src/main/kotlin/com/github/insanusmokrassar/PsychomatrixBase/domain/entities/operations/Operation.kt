@@ -95,7 +95,7 @@ object FourGrowTwo : Operation() {
 
 object EightGrowOne : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers[8] > 0
+        return numbers[8] > changesHistory.count { it == OneGrowEight }
             && (TwoGrowFour.canConvert(numbers, changesHistory) || FourGrowTwo.canConvert(numbers, changesHistory))
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
@@ -128,7 +128,7 @@ object EightGrowOne : Operation() {
 
 object OneGrowEight : Operation() {
     override fun canConvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
-        return numbers[1] > 1
+        return numbers[1] / 2 > changesHistory.count { it == EightGrowOne }
     }
     override fun canInvert(numbers: List<Byte>, changesHistory: List<Operation>): Boolean {
         return numbers[8] > 0 && changesHistory.contains(this)
