@@ -33,6 +33,6 @@ class ModifyPsychomatrixPresenterImpl(
     }
 
     override fun getPsychomatrixHistory(psychomatrix: Psychomatrix): List<Operation> {
-        return getInverts(psychomatrix)
+        return modifyPsychomatrixUseCase.getPsychomatrixHistory(psychomatrix)
     }
 }
