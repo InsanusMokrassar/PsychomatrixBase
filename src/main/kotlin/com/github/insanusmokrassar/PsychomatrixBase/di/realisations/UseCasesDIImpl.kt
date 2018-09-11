@@ -2,10 +2,8 @@ package com.github.insanusmokrassar.PsychomatrixBase.di.realisations
 
 import com.github.insanusmokrassar.PsychomatrixBase.di.EntitiesDI
 import com.github.insanusmokrassar.PsychomatrixBase.di.UseCasesDI
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDateUseCase
-import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.ModifyPsychomatrixUseCase
-import com.github.insanusmokrassar.PsychomatrixBase.domain.interactors.CalculatePsychomatrixByDateUseCaseInteractor
-import com.github.insanusmokrassar.PsychomatrixBase.domain.interactors.ModifyPsychomatrixUseCaseInteractor
+import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.*
+import com.github.insanusmokrassar.PsychomatrixBase.domain.interactors.*
 
 open class UseCasesDIImpl(
     entitiesDI: EntitiesDI
@@ -16,5 +14,9 @@ open class UseCasesDIImpl(
 
     override val modifyPsychomatrixUseCase: ModifyPsychomatrixUseCase by lazy {
         ModifyPsychomatrixUseCaseInteractor()
+    }
+
+    override val ceilDescriptionUseCase: CeilDescriptionUseCase by lazy {
+        CeilDescriptionInteractor()
     }
 }
