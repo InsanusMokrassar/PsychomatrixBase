@@ -1,3 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.entities
 
-typealias CeilDescription = String
+data class CeilDescription(
+    val title: String,
+    val description: String,
+    val characteristicDescription: String
+)
