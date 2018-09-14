@@ -50,5 +50,9 @@
         }
       }
     }
-  }
+  },
+  "required": [
+    "language",
+    "descriptionsList"
+  ]
 }
