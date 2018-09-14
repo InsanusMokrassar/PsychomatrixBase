@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions
 
 import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models.CeilsDescriptionsRoot
-import com.github.insanusmokrassar.PsychomatrixBase.utils.load
+import com.github.insanusmokrassar.PsychomatrixBase.utils.FilesLoader.load
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.io.InputStreamReader
