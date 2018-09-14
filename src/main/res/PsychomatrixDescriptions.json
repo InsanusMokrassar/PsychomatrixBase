@@ -1,0 +1,54 @@
+{
+  "properties": {
+    "language": {
+      "title": "language",
+      "pattern": "[a-z]{2}_[A-Z]{2}",
+      "type": "string"
+    },
+    "descriptionsList": {
+      "title": "descriptionsColumns",
+      "$id": "columns",
+      "type": "array",
+      "maxItems": 4,
+      "minItems": 4,
+      "items": {
+        "title": "descriptionsRows",
+        "$id": "rows",
+        "type": "array",
+        "maxItems": 5,
+        "minItems": 5,
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "title": "title",
+              "type": "string",
+              "maxLength": 150
+            },
+            "description": {
+              "title": "description",
+              "type": "string",
+              "maxLength": 900
+            },
+            "note": {
+              "title": "note",
+              "type": "string"
+            },
+            "characteristics": {
+              "title": "characteristics",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "title",
+            "description"
+          ]
+        }
+      }
+    }
+  }
+}
