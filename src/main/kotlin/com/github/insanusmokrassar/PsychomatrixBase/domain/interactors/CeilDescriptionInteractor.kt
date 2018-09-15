@@ -2,8 +2,8 @@ package com.github.insanusmokrassar.PsychomatrixBase.domain.interactors
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CeilDescriptionReady
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CeilDescriptionUseCase
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilDescription
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.PsychomatrixCeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_EXTRA_SMALL
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_SMALL
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
@@ -14,7 +14,7 @@ class CeilDescriptionInteractor : CeilDescriptionUseCase {
     private val ceilDescriptionReadyBroadcastChannel = BroadcastChannel<CeilDescriptionReady>(
         SUBSCRIPTIONS_SMALL
     )
-    private val ceilDescriptionRequestedBroadcastChannel = BroadcastChannel<PsychomatrixCeilInfo>(
+    private val ceilDescriptionRequestedBroadcastChannel = BroadcastChannel<CeilState>(
         SUBSCRIPTIONS_EXTRA_SMALL
     )
 
@@ -22,20 +22,20 @@ class CeilDescriptionInteractor : CeilDescriptionUseCase {
         return ceilDescriptionReadyBroadcastChannel.openSubscription()
     }
 
-    override fun openCeilDescriptionRequestedSubscription(): ReceiveChannel<PsychomatrixCeilInfo> {
+    override fun openCeilDescriptionRequestedSubscription(): ReceiveChannel<CeilState> {
         return ceilDescriptionRequestedBroadcastChannel.openSubscription()
     }
 
-    override fun descriptionReady(psychomatrixCeilInfo: PsychomatrixCeilInfo, ceilDescription: CeilDescription) {
+    override fun descriptionReady(ceilState: CeilState, ceilInfo: CeilInfo) {
         launch {
-            ceilDescriptionReadyBroadcastChannel.send(psychomatrixCeilInfo to ceilDescription)
+            ceilDescriptionReadyBroadcastChannel.send(ceilState to ceilInfo)
         }
     }
 
-    override fun requestDescription(psychomatrixCeilInfo: PsychomatrixCeilInfo) {
+    override fun requestDescription(ceilState: CeilState) {
         launch {
             ceilDescriptionRequestedBroadcastChannel.send(
-                psychomatrixCeilInfo
+                ceilState
             )
         }
     }

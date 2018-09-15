@@ -65,7 +65,7 @@ open class Psychomatrix(val date: DateTime) {
      * Always array 4*5 of values. In rows was put columns
      *
      */
-    val asMatrix: Array<Array<PsychomatrixCeilInfo>>
+    val asMatrix: Array<Array<CeilState>>
         get() = arrayOf(
             arrayOf(
                 null,
@@ -99,7 +99,7 @@ open class Psychomatrix(val date: DateTime) {
             x, yArray ->
             yArray.mapIndexed {
                 y, value ->
-                PsychomatrixCeilInfo(
+                CeilState(
                     x,
                     y,
                     value ?.toInt()

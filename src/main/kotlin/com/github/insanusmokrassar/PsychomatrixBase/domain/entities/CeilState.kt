@@ -1,6 +1,6 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.entities
 
-data class PsychomatrixCeilInfo(
+data class CeilState(
     val x: Int,
     val y: Int,
     val count: Int?

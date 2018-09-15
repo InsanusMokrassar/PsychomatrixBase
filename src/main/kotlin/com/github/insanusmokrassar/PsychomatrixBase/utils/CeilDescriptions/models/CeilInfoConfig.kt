@@ -1,15 +1,15 @@
 package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilDescription
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
 
-data class CeilDescriptionConfig(
+data class CeilInfoConfig(
     val title: String = "",
     val description: String = "",
     val note: String? = null,
     val characteristics: List<CeilCharacteristic> = emptyList()
 ) {
-    fun toCeilDescription(countOfCharacteristic: Int): CeilDescription {
-        return CeilDescription(
+    fun toCeilDescription(countOfCharacteristic: Int): CeilInfo {
+        return CeilInfo(
             title,
             description,
             countOfCharacteristic.let {

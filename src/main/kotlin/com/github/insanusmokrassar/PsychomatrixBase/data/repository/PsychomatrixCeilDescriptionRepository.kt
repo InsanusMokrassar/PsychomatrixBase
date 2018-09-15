@@ -1,8 +1,8 @@
 package com.github.insanusmokrassar.PsychomatrixBase.data.repository
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilDescription
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.PsychomatrixCeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
 
 interface PsychomatrixCeilDescriptionRepository {
-    fun getCeilDescription(psychomatrixCeilInfo: PsychomatrixCeilInfo): CeilDescription
+    fun getCeilDescription(ceilState: CeilState): CeilInfo
 }

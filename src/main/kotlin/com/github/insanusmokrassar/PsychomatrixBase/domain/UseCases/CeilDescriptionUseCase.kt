@@ -1,17 +1,17 @@
 package com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases
 
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilDescription
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.PsychomatrixCeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 
-typealias CeilDescriptionReady = Pair<PsychomatrixCeilInfo, CeilDescription>
+typealias CeilDescriptionReady = Pair<CeilState, CeilInfo>
 
 interface CeilDescriptionUseCase {
     fun openCeilDescriptionReadySubscription(): ReceiveChannel<CeilDescriptionReady>
 
-    fun openCeilDescriptionRequestedSubscription(): ReceiveChannel<PsychomatrixCeilInfo>
+    fun openCeilDescriptionRequestedSubscription(): ReceiveChannel<CeilState>
 
-    fun descriptionReady(psychomatrixCeilInfo: PsychomatrixCeilInfo, ceilDescription: CeilDescription)
+    fun descriptionReady(ceilState: CeilState, ceilInfo: CeilInfo)
 
-    fun requestDescription(psychomatrixCeilInfo: PsychomatrixCeilInfo)
+    fun requestDescription(ceilState: CeilState)
 }

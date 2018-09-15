@@ -2,9 +2,9 @@ package com.github.insanusmokrassar.PsychomatrixBase.data.repository.realisation
 
 import com.github.insanusmokrassar.PsychomatrixBase.data.repository.PsychomatrixCeilDescriptionRepository
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CeilDescriptionUseCase
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilDescription
-import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.PsychomatrixCeilInfo
-import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models.CeilsDescriptionsRoot
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
+import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
+import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models.CeilsInfosRoot
 import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.resolveCeilsDescriptionsByLanguage
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.subscribe
 
@@ -15,7 +15,7 @@ class PsychomatrixCeilDescriptionRepositoryImpl(
     language: String = CEILS_DESCRIPTION_ENGLISH
 ) : PsychomatrixCeilDescriptionRepository {
 
-    private val ceilsDescriptionsRoot: CeilsDescriptionsRoot = resolveCeilsDescriptionsByLanguage(language)
+    private val ceilsInfosRoot: CeilsInfosRoot = resolveCeilsDescriptionsByLanguage(language)
 
     init {
         ceilDescriptionUseCase.openCeilDescriptionRequestedSubscription().subscribe {
@@ -29,7 +29,7 @@ class PsychomatrixCeilDescriptionRepositoryImpl(
         }
     }
 
-    override fun getCeilDescription(psychomatrixCeilInfo: PsychomatrixCeilInfo): CeilDescription {
-        return ceilsDescriptionsRoot.resolveCeilDescription(psychomatrixCeilInfo)
+    override fun getCeilDescription(ceilState: CeilState): CeilInfo {
+        return ceilsInfosRoot.resolveCeilDescription(ceilState)
     }
 }
