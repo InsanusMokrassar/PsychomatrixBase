@@ -10,8 +10,25 @@ const val characteristicsFolder = "characteristics"
 
 private val gson: Gson = GsonBuilder().create()
 
+val availableTranslations = listOf(
+    "en_US"
+)
+
+private val defaultLanguage = availableTranslations.first()
+
+private fun findSubTranslation(language: String): String {
+    return if (availableTranslations.contains(language)) {
+        return language
+    } else {
+        val localeUpper = language.split("_").first()
+        availableTranslations.firstOrNull {
+            it.startsWith(localeUpper)
+        } ?: defaultLanguage
+    }
+}
+
 fun resolveCeilsDescriptionsByLanguage(language: String = "en_US"): CeilsInfosRoot {
-    return load("$characteristicsFolder/$language.json").let {
+    return load("$characteristicsFolder/${findSubTranslation(language)}.json").let {
         gson.fromJson(InputStreamReader(it), CeilsInfosRoot::class.java)
     }
 }
