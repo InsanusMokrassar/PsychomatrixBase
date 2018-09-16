@@ -11,7 +11,8 @@ const val characteristicsFolder = "characteristics"
 private val gson: Gson = GsonBuilder().create()
 
 val availableTranslations = listOf(
-    "en_US"
+    "en_US",
+    "ru_RU"
 )
 
 private val defaultLanguage = availableTranslations.first()
