@@ -4,18 +4,17 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CeilDescript
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CeilDescriptionUseCase
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_EXTRA_SMALL
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_SMALL
-import kotlinx.coroutines.experimental.channels.BroadcastChannel
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 class CeilDescriptionInteractor : CeilDescriptionUseCase {
+    private val scope = CoroutineScope(Dispatchers.Default)
     private val ceilDescriptionReadyBroadcastChannel = BroadcastChannel<CeilDescriptionReady>(
-        SUBSCRIPTIONS_SMALL
+        16
     )
     private val ceilDescriptionRequestedBroadcastChannel = BroadcastChannel<CeilState>(
-        SUBSCRIPTIONS_EXTRA_SMALL
+        8
     )
 
     override fun openCeilDescriptionReadySubscription(): ReceiveChannel<CeilDescriptionReady> {
@@ -27,13 +26,13 @@ class CeilDescriptionInteractor : CeilDescriptionUseCase {
     }
 
     override fun descriptionReady(ceilState: CeilState, ceilInfo: CeilInfo) {
-        launch {
+        scope.launch {
             ceilDescriptionReadyBroadcastChannel.send(ceilState to ceilInfo)
         }
     }
 
     override fun requestDescription(ceilState: CeilState) {
-        launch {
+        scope.launch {
             ceilDescriptionRequestedBroadcastChannel.send(
                 ceilState
             )

@@ -2,7 +2,9 @@ package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.mode
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CeilsInfosRoot(
     val language: String? = "en_US",
     private val descriptionsList: List<List<CeilInfoConfig>> = emptyList()

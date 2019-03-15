@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.data.repository
 
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.joda.time.DateTime
 
 interface HistoryDatesRepository {

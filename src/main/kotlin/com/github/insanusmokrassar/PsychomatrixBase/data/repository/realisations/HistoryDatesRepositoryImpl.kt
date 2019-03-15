@@ -2,21 +2,21 @@ package com.github.insanusmokrassar.PsychomatrixBase.data.repository.realisation
 
 import com.github.insanusmokrassar.PsychomatrixBase.data.repository.HistoryDatesRepository
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDateUseCase
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_EXTRA_SMALL
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.subscribe
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.BroadcastChannel
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.joda.time.DateTime
 
 abstract class HistoryDatesRepositoryImpl(
     calculatePsychomatrixByDateUseCase: CalculatePsychomatrixByDateUseCase
 ) : HistoryDatesRepository {
-    private val dateAddedBroadcast = BroadcastChannel<DateTime>(SUBSCRIPTIONS_EXTRA_SMALL)
-    private val dateRemovedBroadcast = BroadcastChannel<DateTime>(SUBSCRIPTIONS_EXTRA_SMALL)
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private val dateAddedBroadcast = BroadcastChannel<DateTime>(8)
+    private val dateRemovedBroadcast = BroadcastChannel<DateTime>(8)
 
     init {
-        launch {
+        scope.launch {
             calculatePsychomatrixByDateUseCase.openPsychomatrixCreatedSubscription().subscribe {
                 it.date.also {
                     date ->
@@ -41,7 +41,7 @@ abstract class HistoryDatesRepositoryImpl(
     protected abstract fun onDateCalculated(dateTime: DateTime)
 
     override suspend fun removeDate(date: DateTime): Deferred<Boolean> {
-        return async {
+        return scope.async {
             internalRemoveDate(date).also {
                 if (it) {
                     dateRemovedBroadcast.send(date)

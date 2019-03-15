@@ -4,7 +4,7 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 interface ModifyPsychomatrixPresenter {
 

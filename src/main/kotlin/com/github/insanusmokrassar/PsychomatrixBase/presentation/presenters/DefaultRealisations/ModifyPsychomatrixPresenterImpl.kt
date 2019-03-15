@@ -6,7 +6,7 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsych
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.ModifyPsychomatrixPresenter
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 class ModifyPsychomatrixPresenterImpl(
     private val modifyPsychomatrixUseCase: ModifyPsychomatrixUseCase

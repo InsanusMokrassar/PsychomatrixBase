@@ -2,13 +2,10 @@ package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions
 
 import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models.CeilsInfosRoot
 import com.github.insanusmokrassar.PsychomatrixBase.utils.FilesLoader.load
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import kotlinx.serialization.json.Json
 import java.io.InputStreamReader
 
 const val characteristicsFolder = "characteristics"
-
-private val gson: Gson = GsonBuilder().create()
 
 val availableTranslations = listOf(
     "en_US",
@@ -30,6 +27,6 @@ private fun findSubTranslation(language: String): String {
 
 fun resolveCeilsDescriptionsByLanguage(language: String = "en_US"): CeilsInfosRoot {
     return load("$characteristicsFolder/${findSubTranslation(language)}.json").let {
-        gson.fromJson(InputStreamReader(it), CeilsInfosRoot::class.java)
+        Json.nonstrict.parse(CeilsInfosRoot.serializer(), InputStreamReader(it).readText())
     }
 }

@@ -1,7 +1,9 @@
 package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CeilInfoConfig(
     val title: String = "",
     val description: String = "",

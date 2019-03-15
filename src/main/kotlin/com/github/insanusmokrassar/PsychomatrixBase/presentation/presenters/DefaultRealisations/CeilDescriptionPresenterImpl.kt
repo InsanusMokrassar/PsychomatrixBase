@@ -6,13 +6,15 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
 import com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters.CeilDescriptionPresenter
 import com.github.insanusmokrassar.PsychomatrixBase.utils.Container
 import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.subscribeChecking
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 
 class CeilDescriptionPresenterImpl(
     private val ceilDescriptionUseCase: CeilDescriptionUseCase
 ) : CeilDescriptionPresenter {
+    private val scope = CoroutineScope(Dispatchers.Default)
+
     override fun onUserChooseCeil(ceilState: CeilState): Deferred<CeilInfo> {
-        return async {
+        return scope.async {
             val container = Container<CeilInfo>()
             val subscription = ceilDescriptionUseCase.openCeilDescriptionReadySubscription().subscribeChecking(
                 {

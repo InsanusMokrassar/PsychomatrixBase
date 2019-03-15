@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.PsychomatrixBase.presentation.presenters
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.joda.time.DateTime
 
 interface DatePickerPresenter {

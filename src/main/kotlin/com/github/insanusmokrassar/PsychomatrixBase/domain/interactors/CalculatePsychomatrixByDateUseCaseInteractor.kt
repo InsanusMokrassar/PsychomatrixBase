@@ -2,23 +2,22 @@ package com.github.insanusmokrassar.PsychomatrixBase.domain.interactors
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.CalculatePsychomatrixByDateUseCase
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.channels.BroadcastChannel
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.joda.time.DateTime
 import java.util.*
 
 class CalculatePsychomatrixByDateUseCaseInteractor : CalculatePsychomatrixByDateUseCase {
-    private val psychomatrixCreatedBroadcast = BroadcastChannel<Psychomatrix>(SUBSCRIPTIONS_MEDIUM)
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private val psychomatrixCreatedBroadcast = BroadcastChannel<Psychomatrix>(16)
 
     override suspend fun calculate(date: Long): Deferred<Psychomatrix> {
         return calculate(DateTime(date))
     }
 
     override suspend fun calculate(date: DateTime): Deferred<Psychomatrix> {
-        return async {
+        return scope.async {
             Psychomatrix(date).also {
                 psychomatrixCreatedBroadcast.send(it)
             }

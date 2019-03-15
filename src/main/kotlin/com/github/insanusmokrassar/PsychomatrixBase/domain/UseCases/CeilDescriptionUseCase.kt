@@ -2,7 +2,7 @@ package com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilState
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 typealias CeilDescriptionReady = Pair<CeilState, CeilInfo>
 

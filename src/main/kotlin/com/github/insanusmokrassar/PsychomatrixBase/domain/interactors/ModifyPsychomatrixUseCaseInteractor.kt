@@ -5,15 +5,15 @@ import com.github.insanusmokrassar.PsychomatrixBase.domain.UseCases.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.MutablePsychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.Psychomatrix
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.operations.Operation
-import com.github.insanusmokrassar.PsychomatrixBase.utils.extensions.SUBSCRIPTIONS_MEDIUM
-import kotlinx.coroutines.experimental.channels.BroadcastChannel
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
+    private val scope = CoroutineScope(Dispatchers.Default)
     private val currentPsychomatrixes: MutableList<MutablePsychomatrix> = ArrayList()
 
-    private val psychomatrixChangedBroadcastChannel = BroadcastChannel<PsychomatrixOperationIsConvert>(SUBSCRIPTIONS_MEDIUM)
+    private val psychomatrixChangedBroadcastChannel = BroadcastChannel<PsychomatrixOperationIsConvert>(16)
 
     override fun openPsychomatrixChangedSubscription(): ReceiveChannel<PsychomatrixOperationIsConvert> {
         return psychomatrixChangedBroadcastChannel.openSubscription()
@@ -22,7 +22,7 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
     override fun makeConvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
         return asMutablePsychomatrix(psychomatrix).applyConvert(operation).also {
             if (it) {
-                launch {
+                scope.launch {
                     psychomatrixChangedBroadcastChannel.send(psychomatrix to (operation to true))
                 }
             }
@@ -31,7 +31,7 @@ class ModifyPsychomatrixUseCaseInteractor : ModifyPsychomatrixUseCase {
 
     override fun makeInvert(psychomatrix: MutablePsychomatrix, operation: Operation): Boolean {
         return asMutablePsychomatrix(psychomatrix).applyInvert(operation).also {
-            launch {
+            scope.launch {
                 psychomatrixChangedBroadcastChannel.send(psychomatrix to (operation to false))
             }
         }
