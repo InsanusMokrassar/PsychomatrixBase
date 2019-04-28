@@ -6,13 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CeilInfoConfig(
-    @Optional
     val title: String = "",
-    @Optional
     val description: String = "",
-    @Optional
     val note: String? = null,
-    @Optional
     val characteristics: List<CeilCharacteristic> = emptyList()
 ) {
     fun toCeilDescription(countOfCharacteristic: Int): CeilInfo {
