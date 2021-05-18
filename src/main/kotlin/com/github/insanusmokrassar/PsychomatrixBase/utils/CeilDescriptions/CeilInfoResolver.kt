@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions
 
 import com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models.CeilsInfosRoot
 import com.github.insanusmokrassar.PsychomatrixBase.utils.FilesLoader.load
+import com.github.insanusmokrassar.PsychomatrixBase.utils.nonstrictJson
 import kotlinx.serialization.json.Json
 import java.io.InputStreamReader
 
@@ -27,6 +28,6 @@ private fun findSubTranslation(language: String): String {
 
 fun resolveCeilsDescriptionsByLanguage(language: String = "en_US"): CeilsInfosRoot {
     return load("$characteristicsFolder/${findSubTranslation(language)}.json").let {
-        Json.nonstrict.parse(CeilsInfosRoot.serializer(), InputStreamReader(it).readText())
+        nonstrictJson.decodeFromString(CeilsInfosRoot.serializer(), InputStreamReader(it).readText())
     }
 }

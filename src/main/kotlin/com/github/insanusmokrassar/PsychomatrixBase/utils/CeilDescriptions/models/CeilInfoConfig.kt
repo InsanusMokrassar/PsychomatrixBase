@@ -1,7 +1,6 @@
 package com.github.insanusmokrassar.PsychomatrixBase.utils.CeilDescriptions.models
 
 import com.github.insanusmokrassar.PsychomatrixBase.domain.entities.CeilInfo
-import kotlinx.serialization.Optional
 import kotlinx.serialization.Serializable
 
 @Serializable
